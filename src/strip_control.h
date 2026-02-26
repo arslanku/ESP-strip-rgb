@@ -40,79 +40,77 @@ uint8_t pulsatingBrightness(uint16_t speed = 5, uint8_t minBright = 180, uint8_t
 // Функция обновления состояния ленты
 void updateStrip()
 {
-    if (!stripPower) return;
+    if (!stripPower)
+        return;
 
-    static uint8_t campfireHueOffset = 0;   // для небольших изменений цвета в костре
-    static uint8_t colorShift = 0;           // для изменения оттенка в одноцветных режимах
+    static uint8_t campfireHueOffset = 0; // для небольших изменений цвета в костре
+    static uint8_t colorShift = 0;        // для изменения оттенка в одноцветных режимах
 
     switch (mode)
     {
-        // Эффект РАДУГИ
-        case stripMode::RAINBOW:
+    // Эффект РАДУГИ
+    case stripMode::RAINBOW:
+    {
+        for (int i = 0; i < NUM_LEDS; i++)
         {
-            for (int i = 0; i < NUM_LEDS; i++)
-            {
-                leds[i] = CHSV(hue + (i * 255 / NUM_LEDS), 255, 255);
-            }
-            hue++;
-            break;
+            leds[i] = CHSV(hue + (i * 255 / NUM_LEDS), 255, 255);
         }
+        hue++;
+        break;
+    }
 
-        // Эффект КОСТРА
-        case stripMode::CAMPFIRE:
+    // Эффект КОСТРА
+    case stripMode::CAMPFIRE:
+    {
+        for (int i = 0; i < NUM_LEDS; i++)
         {
-            for (int i = 0; i < NUM_LEDS; i++)
-            {
-                // База оттенка — красный/оранжевый (HUE от 0 до 40)
-                // Добавляем небольшую зависимость от позиции для разнообразия
-                uint8_t baseHue = 16 + (i * 3) % 32;
+            // База оттенка — красный/оранжевый (HUE от 0 до 40)
+            // Добавляем небольшую зависимость от позиции для разнообразия
+            uint8_t baseHue = 16 + (i * 3) % 32;
 
-                // Случайное изменение оттенка от -8 до +8
-                int8_t hueVar = (random8(17) - 8); // random8(17) даёт 0..16, вычитаем 8 -> -8..8
-                uint8_t finalHue = baseHue + hueVar;
+            // Случайное изменение оттенка от -8 до +8
+            int8_t hueVar = (random8(17) - 8); // random8(17) даёт 0..16, вычитаем 8 -> -8..8
+            uint8_t finalHue = baseHue + hueVar;
 
-                // Яркость также случайная, но в высоком диапазоне (180..255)
-                uint8_t bright = 180 + random8(76); // 180..255
+            // Яркость также случайная, но в высоком диапазоне (180..255)
+            uint8_t bright = 180 + random8(76); // 180..255
 
-                leds[i] = CHSV(finalHue, 255, bright);
-            }
-            // Небольшое смещение базы для изменения характера огня со временем (опционально)
-            // campfireHueOffset += 1;  // можно добавить, если хотите медленное изменение палитры
-            break;
+            leds[i] = CHSV(finalHue, 255, bright);
         }
-        
-        // КРАСНЫЙ
-        case stripMode::RED:
-        {
-            // Красный с пульсацией яркости и лёгким изменением оттенка
-            uint8_t bright = pulsatingBrightness(5, 200, 255); // скорость 5, яркость 200-255
-            uint8_t hueShift = sin8(millis() / 7) / 4;          // изменение оттенка 0..63
-            fill_solid(leds, NUM_LEDS, CHSV(0 + hueShift, 255, bright));
-            break;
-        }
+        // Небольшое смещение базы для изменения характера огня со временем (опционально)
+        // campfireHueOffset += 1;  // можно добавить, если хотите медленное изменение палитры
+        break;
+    }
 
-        // ЗЕЛЕНЫЙ
-        case stripMode::GREEN:
-        {
-            // Зелёный с пульсацией яркости и лёгким изменением оттенка
-            uint8_t bright = pulsatingBrightness(5, 200, 255);
-            uint8_t hueShift = sin8(millis() / 7) / 6;          // изменение оттенка 0..42
-            fill_solid(leds, NUM_LEDS, CHSV(96 + hueShift, 255, bright));
-            break;
-        }
+    // КРАСНЫЙ
+    case stripMode::RED:
+    {
+        uint8_t bright = pulsatingBrightness(5, 200, 255); // скорость 5, яркость 200-255
+        uint8_t hueShift = sin8(millis() / 7) / 4;         // изменение оттенка 0..63
+        fill_solid(leds, NUM_LEDS, CHSV(0 + hueShift, 255, bright));
+        break;
+    }
 
-        // СИНИЙ
-        case stripMode::BLUE:
-        {
-            // Синий с пульсацией яркости и лёгким изменением оттенка
-            uint8_t bright = pulsatingBrightness(5, 200, 255);
-            uint8_t hueShift = sin8(millis() / 7) / 6;          // изменение оттенка 0..42
-            fill_solid(leds, NUM_LEDS, CHSV(160 + hueShift, 255, bright));
-            break;
-        }
+    // ЗЕЛЕНЫЙ
+    case stripMode::GREEN:
+    {
+        uint8_t bright = pulsatingBrightness(5, 200, 255);
+        uint8_t hueShift = sin8(millis() / 7) / 6; // изменение оттенка 0..42
+        fill_solid(leds, NUM_LEDS, CHSV(96 + hueShift, 255, bright));
+        break;
+    }
 
-        default:
-            break;
+    // СИНИЙ
+    case stripMode::BLUE:
+    {
+        uint8_t bright = pulsatingBrightness(5, 200, 255);
+        uint8_t hueShift = sin8(millis() / 7) / 6; // изменение оттенка 0..42
+        fill_solid(leds, NUM_LEDS, CHSV(160 + hueShift, 255, bright));
+        break;
+    }
+
+    default:
+        break;
     }
 
     FastLED.show();
