@@ -20,14 +20,15 @@
 #define MQTT_PORT 1883
 #define MQTT_USER "itman7144"
 #define MQTT_PASSWORD "Parol2007dg7144"
+#define MQTT_CLIENT_NAME "ESP32-client-" // ...
 
-#define RESTART_OTA_TOPIC "STRIP-1-OTA"
+#define TOPIC_TO_PUBLISH "STRIP-1-recieved"
 
 #define STRIP_POWER_TOPIC "STRIP-power"
 #define STRIP_BRIGHTNESS_TOPIC "STRIP-brightness"
+#define STRIP_MODE_TOPIC "STRIP-table-mode"
 
-#define STRIP_POWER_TOPIC_TO_PUBLISH "STRIP-1-power-value"
-#define STRIP_BRIGHTNESS_TOPIC_TO_PUBLISH "STRIP-1-brightness-value"
+#define RESTART_OTA_TOPIC "STRIP-1-OTA"
 
 WiFiClient espClient;
 PubSubClient client(espClient);

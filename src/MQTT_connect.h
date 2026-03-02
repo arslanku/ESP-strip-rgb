@@ -8,7 +8,7 @@ void MQTT_connect()
     while (!client.connected())
     {
         Serial.println("[MQTT] Подключение к MQTT");
-        String client_id = "ESP32-client-" + String(WiFi.macAddress());
+        String client_id = MQTT_CLIENT_NAME + String(WiFi.macAddress());
         Serial.printf("[MQTT] Клиент %s подключается к MQTT\n", client_id.c_str());
 
         if (client.connect(client_id.c_str(), MQTT_USER, MQTT_PASSWORD))
@@ -19,8 +19,8 @@ void MQTT_connect()
             client.subscribe(STRIP_BRIGHTNESS_TOPIC);
 
             // Публикуем текущее состояние при подключении
-            client.publish(STRIP_POWER_TOPIC_TO_PUBLISH, stripPower ? "1" : "0");
-            client.publish(STRIP_BRIGHTNESS_TOPIC_TO_PUBLISH, String(stripBrightness * 100 / 255).c_str());
+            // client.publish(STRIP_POWER_TOPIC_TO_PUBLISH, stripPower ? "1" : "0");
+            // client.publish(STRIP_BRIGHTNESS_TOPIC_TO_PUBLISH, String(stripBrightness * 100 / 255).c_str());
         }
         else
         {

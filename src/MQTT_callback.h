@@ -14,7 +14,19 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
     // Обработка топиков
     if (String(topic) == STRIP_POWER_TOPIC)
     {
-        if (message == "1" || message == "on" || message == "ON")
+        if (message == "0")
+        {
+            for (int i = stripBrightness; i > 0; i--)
+            {
+                FastLED.setBrightness(i);
+                FastLED.show();
+                delay(10);
+            }
+
+            setStripPower(false);
+            Serial.println("[STRIP] Лента выключена");
+        }
+        else if (message == "1")
         {
             FastLED.setBrightness(0);
             setStripPower(true);
@@ -30,30 +42,30 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
             client.publish("STRIP-status", "1");
             Serial.println("[STRIP] Лента включена");
         }
-        else if (message == "0" || message == "off" || message == "OFF")
-        {
-            for (int i = stripBrightness; i > 0; i--)
-            {
-                FastLED.setBrightness(i);
-                FastLED.show();
-                delay(10);
-            }
-
-            setStripPower(false);
-            client.publish(STRIP_POWER_TOPIC_TO_PUBLISH, "0");
-            Serial.println("[STRIP] Лента выключена");
-        }
     }
+
     else if (String(topic) == STRIP_BRIGHTNESS_TOPIC)
     {
         int brightnessPercent = message.toInt();
         if (brightnessPercent >= 0 && brightnessPercent <= 100)
         {
             setStripBrightness(brightnessPercent);
-            client.publish(STRIP_BRIGHTNESS_TOPIC_TO_PUBLISH, String(brightnessPercent).c_str());
             Serial.printf("[STRIP] Яркость установлена: %d%%\n", brightnessPercent);
         }
     }
+
+    else if (topic == STRIP_MODE_TOPIC)
+    {
+        if (message == "1")
+        {
+            mode = stripMode::RAINBOW;
+        }
+        else if (message == "2")
+        {
+            mode = stripMode::CAMPFIRE;
+        }
+    }
+
     else if (String(topic) == RESTART_OTA_TOPIC)
     {
         if (message == "1")
@@ -62,4 +74,7 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
             ESP.restart();
         }
     }
+
+    String answerMessage = ": [ " + String(topic) + " " + message + " ]";
+    client.publish(TOPIC_TO_PUBLISH, answerMessage.c_str());
 }
