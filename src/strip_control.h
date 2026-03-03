@@ -43,8 +43,6 @@ void updateStrip()
     }
 
     static uint64_t timer = 0;
-    static uint8_t campfireHueOffset = 0; // для небольших изменений цвета в костре
-    static uint8_t colorShift = 0;        // для изменения оттенка в одноцветных режимах
 
     switch (mode)
     {

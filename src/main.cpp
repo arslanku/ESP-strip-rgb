@@ -9,7 +9,7 @@
 
 #define LED_BUILTIN 2
 #define LOGGING 1
-#define DELAY_TIME_MS 30
+// #define DELAY_TIME_MS 30
 
 // ===============================================
 // Настройки WiFi и MQTT
@@ -22,13 +22,13 @@
 #define MQTT_PASSWORD "Parol2007dg7144"
 #define MQTT_CLIENT_NAME "ESP32-client-" // + ...
 
-#define TOPIC_TO_PUBLISH "STRIP-1-recieved"
+#define TOPIC_TO_PUBLISH "STRIP-table-1-recieved"
 
-#define STRIP_POWER_TOPIC "STRIP-power"
-#define STRIP_BRIGHTNESS_TOPIC "STRIP-brightness"
+#define STRIP_POWER_TOPIC "STRIP-table-power"
+#define STRIP_BRIGHTNESS_TOPIC "STRIP-table-brightness"
 #define STRIP_MODE_TOPIC "STRIP-table-mode"
 
-#define RESTART_OTA_TOPIC "STRIP-1-OTA"
+#define RESTART_OTA_TOPIC "STRIP-table-1-OTA"
 
 WiFiClient espClient;
 PubSubClient client(espClient);

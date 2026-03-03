@@ -74,6 +74,7 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
         else if (message == "DISCO")
         {
             mode = stripMode::DISCO;
+            client.publish("STRIP-window-mode", "DISCO");
         }
     }
 
