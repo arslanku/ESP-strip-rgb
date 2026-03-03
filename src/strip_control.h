@@ -3,7 +3,6 @@
 void setStripPower(bool power)
 {
     stripPower = power;
-
     if (!stripPower)
     {
         FastLED.clear();
@@ -16,11 +15,9 @@ void setStripPower(bool power)
 // Функция установки яркости
 void setStripBrightness(uint8_t brightnessPercent)
 {
-    // Конвертируем проценты (0-100) в значение яркости (0-255)
     stripBrightness = map(brightnessPercent, 0, 100, 0, 255);
     FastLED.setBrightness(stripBrightness);
 
-    // Немедленно применяем изменения
     if (stripPower)
     {
         FastLED.show();
@@ -41,8 +38,11 @@ uint8_t pulsatingBrightness(uint16_t speed = 5, uint8_t minBright = 180, uint8_t
 void updateStrip()
 {
     if (!stripPower)
+    {
         return;
+    }
 
+    static uint64_t timer = 0;
     static uint8_t campfireHueOffset = 0; // для небольших изменений цвета в костре
     static uint8_t colorShift = 0;        // для изменения оттенка в одноцветных режимах
 
@@ -51,11 +51,15 @@ void updateStrip()
     // Эффект РАДУГИ
     case stripMode::RAINBOW:
     {
+        if (millis() - timer >= 30)
+        {
+            timer = millis();
+            hue++;
+        }
         for (int i = 0; i < NUM_LEDS; i++)
         {
             leds[i] = CHSV(hue + (i * 255 / NUM_LEDS), 255, 255);
         }
-        hue++;
         break;
     }
 
@@ -82,31 +86,115 @@ void updateStrip()
         break;
     }
 
+    /*
     // КРАСНЫЙ
     case stripMode::RED:
     {
-        uint8_t bright = pulsatingBrightness(5, 200, 255); // скорость 5, яркость 200-255
-        uint8_t hueShift = sin8(millis() / 7) / 4;         // изменение оттенка 0..63
-        fill_solid(leds, NUM_LEDS, CHSV(0 + hueShift, 255, bright));
+        // uint8_t bright = pulsatingBrightness(5, 200, 255); // скорость 5, яркость 200-255
+        // uint8_t hueShift = sin8(millis() / 7) / 4;         // изменение оттенка 0..63
+        // fill_solid(leds, NUM_LEDS, CHSV(0 + hueShift, 255, bright));
+        if (millis() - timer >= 50)
+        {
+            timer = millis();
+            hue++;
+        }
+        for (int i = 0; i < NUM_LEDS; i++)
+        {
+            float hue_float = 35 + sin(hue) * 5; // 20 - 35 - 50
+            leds[i] = CHSV((int)hue_float + (i * 255 / NUM_LEDS), 255, 255);
+        }
         break;
     }
 
     // ЗЕЛЕНЫЙ
     case stripMode::GREEN:
     {
-        uint8_t bright = pulsatingBrightness(5, 200, 255);
-        uint8_t hueShift = sin8(millis() / 7) / 6; // изменение оттенка 0..42
-        fill_solid(leds, NUM_LEDS, CHSV(96 + hueShift, 255, bright));
+        // uint8_t bright = pulsatingBrightness(5, 200, 255);
+        // uint8_t hueShift = sin8(millis() / 7) / 6; // изменение оттенка 0..42
+        // fill_solid(leds, NUM_LEDS, CHSV(96 + hueShift, 255, bright));
+        if (millis() - timer >= 50)
+        {
+            timer = millis();
+            hue++;
+        }
+        for (int i = 0; i < NUM_LEDS; i++)
+        {
+            float hue_float = 150 + sin(hue) * 5; // 135 - 150 - 165
+            leds[i] = CHSV((int)hue_float + (i * 255 / NUM_LEDS), 255, 255);
+        }
         break;
     }
 
     // СИНИЙ
     case stripMode::BLUE:
     {
-        uint8_t bright = pulsatingBrightness(5, 200, 255);
-        uint8_t hueShift = sin8(millis() / 7) / 6; // изменение оттенка 0..42
-        fill_solid(leds, NUM_LEDS, CHSV(160 + hueShift, 255, bright));
+        // uint8_t bright = pulsatingBrightness(5, 200, 255);
+        // uint8_t hueShift = sin8(millis() / 7) / 6; // изменение оттенка 0..42
+        // fill_solid(leds, NUM_LEDS, CHSV(160 + hueShift, 255, bright));
+        if (millis() - timer >= 50)
+        {
+            timer = millis();
+            hue++;
+        }
+        for (int i = 0; i < NUM_LEDS; i++)
+        {
+            float hue_float = 260 + sin(hue) * 5; // 245 - 260 - 275
+            leds[i] = CHSV((int)hue_float + (i * 255 / NUM_LEDS), 255, 255);
+        }
         break;
+    }
+    */
+
+    // Продвинутая дискотека с автоматической сменой эффектов
+    case stripMode::DISCO:
+    {
+
+        static int discoEffect = 0;
+        static uint8_t discoHue = 0;
+        static uint8_t offset = 0;
+
+        static uint64_t effectChange_timer = 0;
+        if (millis() - effectChange_timer > 5000)
+        {
+            effectChange_timer = millis();
+            discoEffect = (discoEffect + 1) % 3;
+        }
+        switch (discoEffect)
+        {
+        // Быстре радужные вспышки
+        case 0:
+            if (millis() % 300 < 150)
+            {
+                discoHue++;
+                fill_solid(leds, NUM_LEDS, CHSV(discoHue, 255, 255));
+            }
+            else
+            {
+                FastLED.clear();
+            }
+            break;
+
+        // Быстрая радуга
+        case 1:
+            for (int i = 0; i < NUM_LEDS; i++)
+            {
+                leds[i] = CHSV(hue + (i * 255 / NUM_LEDS), 255, 255);
+            }
+            hue++;
+            break;
+
+        // Бегущие огни
+        case 2:
+            for (int i = 0; i < NUM_LEDS; i++)
+            {
+                leds[i] = CHSV((i * 15 + offset) % 255, 255, 255);
+            }
+            offset++;
+            break;
+
+        default:
+            break;
+        }
     }
 
     default:

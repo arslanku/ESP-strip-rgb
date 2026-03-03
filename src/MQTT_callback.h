@@ -11,7 +11,6 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
         message += (char)payload[i];
     Serial.println(message);
 
-    // Обработка топиков
     if (String(topic) == STRIP_POWER_TOPIC)
     {
         if (message == "0")
@@ -22,7 +21,6 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
                 FastLED.show();
                 delay(10);
             }
-
             setStripPower(false);
             Serial.println("[STRIP] Лента выключена");
         }
@@ -30,7 +28,6 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
         {
             FastLED.setBrightness(0);
             setStripPower(true);
-
             for (int i = 0; i < stripBrightness; i++)
             {
                 FastLED.setBrightness(i);
@@ -38,8 +35,6 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
                 updateStrip();
                 delay(10);
             }
-
-            client.publish("STRIP-status", "1");
             Serial.println("[STRIP] Лента включена");
         }
     }
@@ -54,15 +49,31 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
         }
     }
 
-    else if (topic == STRIP_MODE_TOPIC)
+    else if (String(topic) == STRIP_MODE_TOPIC)
     {
-        if (message == "1")
+        if (message == "RAINBOW")
         {
             mode = stripMode::RAINBOW;
         }
-        else if (message == "2")
+        else if (message == "CAMPFIRE")
         {
             mode = stripMode::CAMPFIRE;
+        }
+        else if (message == "RED")
+        {
+            mode = stripMode::RED;
+        }
+        else if (message == "GREEN")
+        {
+            mode = stripMode::GREEN;
+        }
+        else if (message == "BLUE")
+        {
+            mode = stripMode::BLUE;
+        }
+        else if (message == "DISCO")
+        {
+            mode = stripMode::DISCO;
         }
     }
 

@@ -9,7 +9,6 @@ void OTA_setup()
         String type = (ArduinoOTA.getCommand() == U_FLASH) ? "прошивка" : "файловая система";
         Serial.println("[OTA] Начинается обновление: " + type);
         
-        // При начале обновления выключаем ленту, чтобы не мешала
         FastLED.clear();
         FastLED.show(); });
 

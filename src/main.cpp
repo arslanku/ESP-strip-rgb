@@ -20,7 +20,7 @@
 #define MQTT_PORT 1883
 #define MQTT_USER "itman7144"
 #define MQTT_PASSWORD "Parol2007dg7144"
-#define MQTT_CLIENT_NAME "ESP32-client-" // ...
+#define MQTT_CLIENT_NAME "ESP32-client-" // + ...
 
 #define TOPIC_TO_PUBLISH "STRIP-1-recieved"
 
@@ -54,6 +54,7 @@ enum class stripMode
     RED,
     GREEN,
     BLUE,
+    DISCO
 };
 stripMode mode;
 
@@ -123,6 +124,7 @@ void loop()
 {
     if (!client.connected())
         MQTT_connect();
+
     client.loop();
 
     OTA_handle();
@@ -136,5 +138,5 @@ void loop()
         digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
 
-    delay(DELAY_TIME_MS);
+    // delay(DELAY_TIME_MS);
 }
