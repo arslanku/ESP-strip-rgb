@@ -165,11 +165,11 @@ void updateStrip()
         case 0:
             if (millis() % 300 < 150)
             {
-                discoHue++;
                 fill_solid(leds, NUM_LEDS, CHSV(discoHue, 255, 255));
             }
             else
             {
+                discoHue++;
                 FastLED.clear();
             }
             break;
@@ -185,11 +185,18 @@ void updateStrip()
 
         // Бегущие огни
         case 2:
-            for (int i = 0; i < NUM_LEDS; i++)
+            if (millis() % 100 < 50)
             {
-                leds[i] = CHSV((i * 15 + offset) % 255, 255, 255);
+                for (int i = 0; i < NUM_LEDS; i++)
+                {
+                    leds[i] = CHSV((i * 15 + offset) % 255, 255, 255);
+                }
+                offset++;
             }
-            offset++;
+            else
+            {
+                FastLED.clear();
+            }
             break;
 
         default:
