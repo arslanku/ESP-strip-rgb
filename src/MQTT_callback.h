@@ -103,6 +103,12 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
         }
     }
 
-    String answerMessage = ": [ " + String(topic) + " " + message + " ]";
+    else
+    {
+        Serial.println("[MQTT] Неизвестная команда: " + message);
+        client.publish(TOPIC_TO_PUBLISH, "[ERROR] Неизвестная команда");
+    }
+
+    String answerMessage = ": { " + String(topic) + " " + message + " }";
     client.publish(TOPIC_TO_PUBLISH, answerMessage.c_str());
 }

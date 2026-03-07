@@ -82,6 +82,14 @@ void setup()
     mode = stripMode::RAINBOW;
     // mode = stripMode::DISCO;
 
+#if CONTROLLER_TYPE_ESP32_TABLE
+    randomSeed(esp_random());
+#elif CONTROLLER_TYPE_ESP8266_TABLE
+    randomSeed(analogRead(0));
+#elif CONTROLLER_TYPE_ESP8266_WINDOW
+    randomSeed(analogRead(0));
+#endif
+
     Serial.println("[SYSTEM] Система запущена");
 }
 
@@ -90,7 +98,13 @@ void setup()
 void loop()
 {
     if (!client.connected())
+    {
         MQTT_connect();
+    }
+    if (WiFi.status() != WL_CONNECTED)
+    {
+        WIFI_connect();
+    }
 
     client.loop();
 
