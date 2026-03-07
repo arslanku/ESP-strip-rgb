@@ -1,15 +1,4 @@
 // ===============================================
-// Настройки WiFi и MQTT (глобальные)
-
-#define WIFI_SSID "CHAIHANA_HOUSE"
-#define WIFI_PASSWORD "987123654"
-
-#define MQTT_SERVER "mqtt.dealgate.ru"
-#define MQTT_PORT 1883
-#define MQTT_USER "itman7144"
-#define MQTT_PASSWORD "Parol2007dg7144"
-
-// ===============================================
 // ESP32 table
 #if CONTROLLER_TYPE_ESP32_TABLE
 

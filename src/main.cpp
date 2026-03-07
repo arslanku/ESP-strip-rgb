@@ -4,6 +4,7 @@
 #define CONTROLLER_TYPE_ESP8266_TABLE 0
 #define CONTROLLER_TYPE_ESP8266_WINDOW 0
 
+#include "auth_data.h"
 #include "settings.h"
 
 // ===============================================
@@ -46,15 +47,9 @@ void OTA_handle();
 #include "WIFI_connect.h"
 #include "MQTT_connect.h"
 
-// ===============================================
-
 #include "OTA_connect.h"
 
-// ===============================================
-
 #include "MQTT_callback.h"
-
-// ===============================================
 
 #include "strip_control.h"
 
