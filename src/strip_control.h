@@ -188,6 +188,8 @@ void updateStrip()
 // Функция подтверждения подключения контроллера
 void connectSuccess()
 {
+    FastLED.clear();
+    FastLED.show();
     delay(250);
     for (int i = 0; i < 3; i++)
     {

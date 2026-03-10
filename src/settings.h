@@ -40,6 +40,7 @@
 #define STRIP_POWER_TOPIC "STRIP/table/power"
 #define STRIP_BRIGHTNESS_TOPIC "STRIP/table/brightness"
 #define STRIP_MODE_TOPIC "STRIP/table/mode"
+#define STRIP_SPEED "STRIP/table/speed"
 #define RESTART_TOPIC "STRIP/table-2/restart"
 
 #define NUM_LEDS 120
@@ -65,6 +66,7 @@
 #define STRIP_POWER_TOPIC "STRIP/window/power"
 #define STRIP_BRIGHTNESS_TOPIC "STRIP/window/brightness"
 #define STRIP_MODE_TOPIC "STRIP/window/mode"
+#define STRIP_SPEED "STRIP/window/speed"
 #define RESTART_TOPIC "STRIP/window/restart"
 
 #define NUM_LEDS 380
