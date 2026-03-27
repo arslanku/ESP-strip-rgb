@@ -3,6 +3,8 @@
 #define CONTROLLER_TYPE_ESP32_TABLE 1
 #define CONTROLLER_TYPE_ESP8266_TABLE 0
 #define CONTROLLER_TYPE_ESP8266_WINDOW 0
+#define CONTROLLER_TYPE_ESP8266_BED_LEFT 0
+#define CONTROLLER_TYPE_ESP8266_BED_RIGHT 0
 
 #include "auth_data.h"
 #include "settings.h"
@@ -82,13 +84,17 @@ void setup()
     mode = stripMode::RAINBOW;
     // mode = stripMode::DISCO;
 
-#if CONTROLLER_TYPE_ESP32_TABLE
-    randomSeed(esp_random());
-#elif CONTROLLER_TYPE_ESP8266_TABLE
-    randomSeed(analogRead(0));
-#elif CONTROLLER_TYPE_ESP8266_WINDOW
-    randomSeed(analogRead(0));
-#endif
+// #if CONTROLLER_TYPE_ESP32_TABLE
+//     randomSeed(esp_random());
+// #elif CONTROLLER_TYPE_ESP8266_TABLE
+//     randomSeed(analogRead(0));
+// #elif CONTROLLER_TYPE_ESP8266_WINDOW
+//     randomSeed(analogRead(0));
+// #elif CONTROLLER_TYPE_ESP8266_BED_LEFT
+//     randomSeed(analogRead(0));
+// #elif CONTROLLER_TYPE_ESP8266_BED_RIGHT
+//     randomSeed(analogRead(0));
+// #endif
 
     Serial.println("[SYSTEM] Система запущена");
 }

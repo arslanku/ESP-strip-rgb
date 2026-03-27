@@ -7,7 +7,7 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
     Serial.print("]: ");
 
     String message = "";
-    for (int i = 0; i < length; i++)
+    for (unsigned int i = 0; i < length; i++)
         message += (char)payload[i];
     message.trim();
     Serial.println(message);

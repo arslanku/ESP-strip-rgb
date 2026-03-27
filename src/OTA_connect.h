@@ -5,13 +5,14 @@
 void OTA_setup()
 {
     // Настройка обработчиков событий OTA
-    ArduinoOTA.onStart([]()
-                       {
-        String type = (ArduinoOTA.getCommand() == U_FLASH) ? "прошивка" : "файловая система";
-        Serial.println("[OTA] Начинается обновление: " + type);
-        
-        FastLED.clear();
-        FastLED.show(); });
+    ArduinoOTA.onStart(
+        []()
+        {
+            // String type = (ArduinoOTA.getCommand() == U_FLASH) ? "прошивка" : "файловая система";
+            // Serial.println("[OTA] Начинается обновление: " + type);
+            FastLED.clear();
+            FastLED.show();
+        });
 
     ArduinoOTA.onEnd([]()
                      { Serial.println("\n[OTA] Обновление завершено"); });

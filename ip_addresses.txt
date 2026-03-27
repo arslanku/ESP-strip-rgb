@@ -1,5 +1,9 @@
-esp32 table 192.168.31.229
+esp32 table         192.168.31.229
 
-esp8266 table 192.168.31.166
+esp8266 table       192.168.31.166
 
-esp8266 window 192.168.31.180
+esp8266 window      192.168.31.180
+
+esp8266 bed left    192.168.31.95
+
+esp8266 bed right   192.168.31.88

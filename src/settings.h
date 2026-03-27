@@ -69,7 +69,59 @@
 #define STRIP_SPEED "STRIP/window/speed"
 #define RESTART_TOPIC "STRIP/window/restart"
 
-#define NUM_LEDS 380
+#define NUM_LEDS 180
+#define DATA_PIN D1
+#define LED_TYPE WS2812
+#define COLOR_ORDER GRB
+
+#endif
+
+// ===============================================
+// ESP8266 bed LEFT
+#if CONTROLLER_TYPE_ESP8266_BED_LEFT
+
+#include <ESP8266WiFi.h>
+#include <PubSubClient.h>
+#include <FastLED.h>
+
+#define LED_BUILTIN D4
+#define LOGGING 1
+
+#define MQTT_CLIENT_NAME "ESP8266-client-" // + ...
+#define TOPIC_TO_PUBLISH "STRIP/bed/left/received"
+#define STRIP_POWER_TOPIC "STRIP/bed/power"
+#define STRIP_BRIGHTNESS_TOPIC "STRIP/bed/brightness"
+#define STRIP_MODE_TOPIC "STRIP/bed/mode"
+#define STRIP_SPEED "STRIP/bed/speed"
+#define RESTART_TOPIC "STRIP/bed/left/restart"
+
+#define NUM_LEDS 180
+#define DATA_PIN D1
+#define LED_TYPE WS2812
+#define COLOR_ORDER GRB
+
+#endif
+
+// ===============================================
+// ESP8266 bed RIGHT
+#if CONTROLLER_TYPE_ESP8266_BED_RIGHT
+
+#include <ESP8266WiFi.h>
+#include <PubSubClient.h>
+#include <FastLED.h>
+
+#define LED_BUILTIN D4
+#define LOGGING 1
+
+#define MQTT_CLIENT_NAME "ESP8266-client-" // + ...
+#define TOPIC_TO_PUBLISH "STRIP/bed/right/received"
+#define STRIP_POWER_TOPIC "STRIP/bed/power"
+#define STRIP_BRIGHTNESS_TOPIC "STRIP/bed/brightness"
+#define STRIP_MODE_TOPIC "STRIP/bed/mode"
+#define STRIP_SPEED "STRIP/bed/speed"
+#define RESTART_TOPIC "STRIP/bed/right/restart"
+
+#define NUM_LEDS 180
 #define DATA_PIN D1
 #define LED_TYPE WS2812
 #define COLOR_ORDER GRB
