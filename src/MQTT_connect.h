@@ -8,7 +8,7 @@ void MQTT_connect()
     while (!client.connected())
     {
         Serial.println("[MQTT] Подключение к MQTT");
-        String client_id = MQTT_CLIENT_NAME + String(WiFi.macAddress());
+        String client_id = String(MQTT_CLIENT_NAME) + String(PROGRAMM_VERSION) + String(WiFi.macAddress());
         Serial.printf("[MQTT] Клиент %s подключается к MQTT\n", client_id.c_str());
 
         if (client.connect(client_id.c_str(), MQTT_USER, MQTT_PASSWORD))
@@ -19,6 +19,7 @@ void MQTT_connect()
             client.subscribe(STRIP_BRIGHTNESS_TOPIC);
             client.subscribe(STRIP_MODE_TOPIC);
             client.subscribe(STRIP_SPEED);
+            client.subscribe(STRIP_COLOR_RGB);
             client.subscribe(RESTART_TOPIC);
         }
         else

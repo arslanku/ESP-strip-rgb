@@ -1,10 +1,12 @@
 #include <Arduino.h>
 
-#define CONTROLLER_TYPE_ESP32_TABLE 1
+#define CONTROLLER_TYPE_ESP32_TABLE 0
 #define CONTROLLER_TYPE_ESP8266_TABLE 0
-#define CONTROLLER_TYPE_ESP8266_WINDOW 0
+#define CONTROLLER_TYPE_ESP8266_WINDOW 1
 #define CONTROLLER_TYPE_ESP8266_BED_LEFT 0
 #define CONTROLLER_TYPE_ESP8266_BED_RIGHT 0
+
+#define PROGRAMM_VERSION "-v1.0.5-"
 
 #include "auth_data.h"
 #include "settings.h"
@@ -19,16 +21,15 @@ uint8_t hue = 0;
 
 bool stripPower = true;
 uint8_t stripBrightness = 50;
-uint16_t discoTimerMs = 5000;
+uint16_t discoModeDelay = 5000;
+CRGB stripColor = CRGB::Red;
 
 enum class stripMode
 {
     RAINBOW,
     CAMPFIRE,
-    RED,
-    GREEN,
-    BLUE,
-    DISCO
+    DISCO,
+    COLOR
 };
 stripMode mode;
 
@@ -84,17 +85,17 @@ void setup()
     mode = stripMode::RAINBOW;
     // mode = stripMode::DISCO;
 
-// #if CONTROLLER_TYPE_ESP32_TABLE
-//     randomSeed(esp_random());
-// #elif CONTROLLER_TYPE_ESP8266_TABLE
-//     randomSeed(analogRead(0));
-// #elif CONTROLLER_TYPE_ESP8266_WINDOW
-//     randomSeed(analogRead(0));
-// #elif CONTROLLER_TYPE_ESP8266_BED_LEFT
-//     randomSeed(analogRead(0));
-// #elif CONTROLLER_TYPE_ESP8266_BED_RIGHT
-//     randomSeed(analogRead(0));
-// #endif
+    // #if CONTROLLER_TYPE_ESP32_TABLE
+    //     randomSeed(esp_random());
+    // #elif CONTROLLER_TYPE_ESP8266_TABLE
+    //     randomSeed(analogRead(0));
+    // #elif CONTROLLER_TYPE_ESP8266_WINDOW
+    //     randomSeed(analogRead(0));
+    // #elif CONTROLLER_TYPE_ESP8266_BED_LEFT
+    //     randomSeed(analogRead(0));
+    // #elif CONTROLLER_TYPE_ESP8266_BED_RIGHT
+    //     randomSeed(analogRead(0));
+    // #endif
 
     Serial.println("[SYSTEM] Система запущена");
 }

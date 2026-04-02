@@ -60,21 +60,13 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
         {
             mode = stripMode::CAMPFIRE;
         }
-        else if (message == "RED")
-        {
-            mode = stripMode::RED;
-        }
-        else if (message == "GREEN")
-        {
-            mode = stripMode::GREEN;
-        }
-        else if (message == "BLUE")
-        {
-            mode = stripMode::BLUE;
-        }
         else if (message == "DISCO")
         {
             mode = stripMode::DISCO;
+        }
+        else if (message == "COLOR")
+        {
+            mode = stripMode::COLOR;
         }
     }
 
@@ -82,15 +74,44 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
     {
         if (message == "low")
         {
-            discoTimerMs = 10000;
+            discoModeDelay = 5000;
         }
         else if (message == "medium")
         {
-            discoTimerMs = 5000;
+            discoModeDelay = 2500;
         }
         else if (message == "high")
         {
-            discoTimerMs = 1000;
+            discoModeDelay = 1000;
+        }
+    }
+
+    else if (String(topic) == STRIP_COLOR_RGB)
+    {
+        // Ожидаем формат: "255,128,0"
+        int r = 0, g = 0, b = 0;
+        int firstComma = message.indexOf(',');
+        int secondComma = message.indexOf(',', firstComma + 1);
+
+        if (firstComma != -1 && secondComma != -1)
+        {
+            r = message.substring(0, firstComma).toInt();
+            g = message.substring(firstComma + 1, secondComma).toInt();
+            b = message.substring(secondComma + 1).toInt();
+
+            // Ограничиваем значения 0-255
+            r = constrain(r, 0, 255);
+            g = constrain(g, 0, 255);
+            b = constrain(b, 0, 255);
+
+            stripColor = CRGB(r, g, b);
+            mode = stripMode::COLOR;
+
+            Serial.printf("[STRIP] Цвет установлен: R=%d G=%d B=%d\n", r, g, b);
+        }
+        else
+        {
+            Serial.println("[STRIP] Ошибка: неверный формат цвета. Ожидается R,G,B");
         }
     }
 

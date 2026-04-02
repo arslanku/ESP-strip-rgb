@@ -63,7 +63,7 @@ void updateStrip()
         for (int i = 0; i < NUM_LEDS; i++)
         {
             uint8_t baseHue = 16 + (i * 3) % 32;
-            int8_t hueVar = (random8(35) - 8);
+            int8_t hueVar = (random8(10) - 8);
             uint8_t finalHue = baseHue + hueVar;
             uint8_t bright = 180 + random8(76);
             leds[i] = CHSV(finalHue, 255, bright);
@@ -71,37 +71,23 @@ void updateStrip()
         break;
     }
 
-    // КРАСНЫЙ
-    case stripMode::RED:
+        // ЦВЕТ
+    case stripMode::COLOR:
     {
-        fill_solid(leds, NUM_LEDS, CRGB::Red);
-        break;
-    }
-
-    // ЗЕЛЕНЫЙ
-    case stripMode::GREEN:
-    {
-        fill_solid(leds, NUM_LEDS, CRGB::Green);
-        break;
-    }
-
-    // СИНИЙ
-    case stripMode::BLUE:
-    {
-        fill_solid(leds, NUM_LEDS, CRGB::Blue);
+        fill_solid(leds, NUM_LEDS, stripColor);
         break;
     }
 
     // Продвинутая дискотека с автоматической сменой эффектов
     case stripMode::DISCO:
     {
-        //static uint8_t discoEffect = 0;
+        // static uint8_t discoEffect = 0;
         static uint8_t discoHue = 0;
-        //static uint8_t offset = 0;
-        //static uint64_t effectChangeTimer = 0;
+        // static uint8_t offset = 0;
+        // static uint64_t effectChangeTimer = 0;
 
         static uint64_t disco_timer = 0;
-        if (millis() - disco_timer >= 500)
+        if (millis() - disco_timer >= discoModeDelay)
         {
             disco_timer = millis();
             fill_solid(leds, NUM_LEDS, CHSV(discoHue, 255, 255));
