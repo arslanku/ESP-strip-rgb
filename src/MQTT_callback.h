@@ -74,15 +74,15 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
     {
         if (message == "low")
         {
-            discoModeDelay = 5000;
+            discoSpeed = discoModeDelay::SLOW;
         }
         else if (message == "medium")
         {
-            discoModeDelay = 2500;
+            discoSpeed = discoModeDelay::MEDIUM;
         }
         else if (message == "high")
         {
-            discoModeDelay = 1000;
+            discoSpeed = discoModeDelay::FAST;
         }
     }
 

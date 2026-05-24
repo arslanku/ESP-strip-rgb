@@ -7,6 +7,8 @@ void setStripPower(bool power)
     {
         FastLED.clear();
         FastLED.show();
+        FastLED.clear();
+        FastLED.show();
     }
 }
 
@@ -44,15 +46,16 @@ void updateStrip()
     // Эффект РАДУГИ
     case stripMode::RAINBOW:
     {
+        static uint8_t raibowHue = 0;
         static uint64_t rainbowTimer = 0;
         if (millis() - rainbowTimer >= 30)
         {
             rainbowTimer = millis();
-            hue++;
+            raibowHue++;
         }
         for (int i = 0; i < NUM_LEDS; i++)
         {
-            leds[i] = CHSV(hue + (i * 255 / NUM_LEDS), 255, 255);
+            leds[i] = CHSV(raibowHue + (i * 255 / NUM_LEDS), 255, 255);
         }
         break;
     }
@@ -71,7 +74,7 @@ void updateStrip()
         break;
     }
 
-        // ЦВЕТ
+    // ЦВЕТ
     case stripMode::COLOR:
     {
         fill_solid(leds, NUM_LEDS, stripColor);
@@ -81,97 +84,26 @@ void updateStrip()
     // Продвинутая дискотека с автоматической сменой эффектов
     case stripMode::DISCO:
     {
-        // static uint8_t discoEffect = 0;
-        static uint8_t discoHue = 0;
-        // static uint8_t offset = 0;
-        // static uint64_t effectChangeTimer = 0;
+        static uint8_t discoHue;
+        static uint8_t bright;
+        static float k;
 
-        static uint64_t disco_timer = 0;
-        if (millis() - disco_timer >= discoModeDelay)
+        switch (discoSpeed)
         {
-            disco_timer = millis();
-            fill_solid(leds, NUM_LEDS, CHSV(discoHue, 255, 255));
+        case discoModeDelay::SLOW:
+            k = 0.1;
+            break;
+        case discoModeDelay::MEDIUM:
+            k = 0.3;
+            break;
+        case discoModeDelay::FAST:
+            k = 0.5;
+            break;
         }
+
+        bright = map(sin8(k * millis()), 0, 255, 40, 255);
+        fill_solid(leds, NUM_LEDS, CHSV(discoHue, 255, bright));
         discoHue++;
-
-        // if (millis() - effectChangeTimer >= discoTimerMs)
-        // {
-        //     effectChangeTimer = millis();
-        //     discoEffect = (discoEffect + 1) % 6;
-        // }
-        // switch (discoEffect)
-        // {
-        // // 0: Быстрые радужные вспышки
-        // case 0:
-        //     if (millis() % 300 < 150)
-        //     {
-        //         fill_solid(leds, NUM_LEDS, CHSV(discoHue, 255, 255));
-        //     }
-        //     else
-        //     {
-        //         discoHue++;
-        //         FastLED.clear();
-        //     }
-        //     break;
-
-        // // 1: Быстрая радуга (вперёд)
-        // case 1:
-        //     for (int i = 0; i < NUM_LEDS; i++)
-        //     {
-        //         leds[i] = CHSV(hue + (i * 255 / NUM_LEDS), 255, 255);
-        //     }
-        //     hue++;
-        //     break;
-
-        // // 2: Бегущие огни
-        // case 2:
-        //     if (millis() % 200 < 100)
-        //     {
-        //         for (int i = 0; i < NUM_LEDS; i++)
-        //         {
-        //             leds[i] = CHSV((i * 15 + offset) % 255, 255, 255);
-        //         }
-        //         offset++;
-        //     }
-        //     else
-        //     {
-        //         FastLED.clear();
-        //     }
-        //     break;
-
-        // // 3: Быстрая радуга (в другую сторону)
-        // case 3:
-        //     for (int i = 0; i < NUM_LEDS; i++)
-        //     {
-        //         leds[i] = CHSV(hue + (i * 255 / NUM_LEDS), 255, 255);
-        //     }
-        //     hue--;
-        //     break;
-
-        // // 4: Случайные цветные сектора
-        // case 4:
-        //     static uint64_t lastSectorUpdate = 0;
-        //     if (millis() - lastSectorUpdate >= 450)
-        //     {
-        //         lastSectorUpdate = millis();
-        //         int sector = NUM_LEDS / 5; // делим ленту на 5 примерно равных частей
-        //         for (int part = 0; part < 5; part++)
-        //         {
-        //             int start = part * sector;
-        //             int end = (part == 4) ? NUM_LEDS : (part + 1) * sector; // последний сектор до конца
-        //             fill_solid(leds + start, end - start, CHSV(random(255), 255, 255));
-        //         }
-        //     }
-        //     break;
-
-        // // 5: Пульсирующая волна цвета
-        // case 5:
-        //     uint8_t bright = pulsatingBrightness(20, 20, 200);
-        //     uint8_t hueVal = (millis() / 10) % 255;
-        //     fill_solid(leds, NUM_LEDS, CHSV(hueVal, 255, bright));
-        //     break;
-        // }
-
         break;
     }
     }

@@ -1,8 +1,8 @@
 #include <Arduino.h>
 
-#define CONTROLLER_TYPE_ESP32_TABLE 0
+#define CONTROLLER_TYPE_ESP32_TABLE 1
 #define CONTROLLER_TYPE_ESP8266_TABLE 0
-#define CONTROLLER_TYPE_ESP8266_WINDOW 1
+#define CONTROLLER_TYPE_ESP8266_WINDOW 0
 #define CONTROLLER_TYPE_ESP8266_BED_LEFT 0
 #define CONTROLLER_TYPE_ESP8266_BED_RIGHT 0
 
@@ -17,11 +17,9 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 
 CRGB leds[NUM_LEDS];
-uint8_t hue = 0;
 
 bool stripPower = true;
 uint8_t stripBrightness = 50;
-uint16_t discoModeDelay = 5000;
 CRGB stripColor = CRGB::Red;
 
 enum class stripMode
@@ -32,6 +30,14 @@ enum class stripMode
     COLOR
 };
 stripMode mode;
+
+enum class discoModeDelay
+{
+    SLOW,
+    MEDIUM,
+    FAST
+};
+discoModeDelay discoSpeed;
 
 // ===============================================
 // Прототипы функций
@@ -83,7 +89,8 @@ void setup()
     connectSuccess();
 
     mode = stripMode::RAINBOW;
-    // mode = stripMode::DISCO;
+
+    discoSpeed = discoModeDelay::MEDIUM;
 
     // #if CONTROLLER_TYPE_ESP32_TABLE
     //     randomSeed(esp_random());
