@@ -90,6 +90,8 @@
 #define LED_BUILTIN D4
 #define LOGGING 1
 
+#define SSR_RELAY_PIN D2
+
 #define MQTT_CLIENT_NAME "ESP8266 (bed-1)" // + ...
 #define STRIP_POWER_TOPIC "STRIP/bed/power"
 #define STRIP_BRIGHTNESS_TOPIC "STRIP/bed/brightness"
@@ -98,6 +100,8 @@
 #define STRIP_COLOR_RGB "STRIP/bed/colorRGB"
 #define TOPIC_TO_PUBLISH "STRIP/bed-1/received"
 #define RESTART_TOPIC "STRIP/bed-1/restart"
+
+#define SSR_RELAY_TOPIC "STRIP/door"
 
 #define NUM_LEDS 180
 #define DATA_PIN D1

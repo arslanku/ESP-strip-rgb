@@ -115,6 +115,22 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
         }
     }
 
+#elif CONTROLLER_TYPE_ESP8266_BED_LEFT
+    else if (String(topic) == SSR_RELAY_TOPIC)
+    {
+        if (message == "0")
+        {
+            digitalWrite(SSR_RELAY_PIN, HIGH);
+            Serial.println("[SSR] Реле выключено");
+        }
+        else if (message == "1")
+        {
+            digitalWrite(SSR_RELAY_PIN, LOW);
+            Serial.println("[SSR] Реле включено");
+        }
+    }
+#endif
+
     else if (String(topic) == RESTART_TOPIC)
     {
         if (message == "1")

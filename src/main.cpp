@@ -1,9 +1,9 @@
 #include <Arduino.h>
 
-#define CONTROLLER_TYPE_ESP32_TABLE 1
+#define CONTROLLER_TYPE_ESP32_TABLE 0
 #define CONTROLLER_TYPE_ESP8266_TABLE 0
 #define CONTROLLER_TYPE_ESP8266_WINDOW 0
-#define CONTROLLER_TYPE_ESP8266_BED_LEFT 0
+#define CONTROLLER_TYPE_ESP8266_BED_LEFT 1
 #define CONTROLLER_TYPE_ESP8266_BED_RIGHT 0
 
 #define PROGRAMM_VERSION "-v1.0.5-"
@@ -75,6 +75,11 @@ void setup()
     digitalWrite(LED_BUILTIN, LOW);
 #endif
 
+#if CONTROLLER_TYPE_ESP8266_BED_LEFT
+    pinMode(SSR_RELAY_PIN, OUTPUT);
+    digitalWrite(SSR_RELAY_PIN, HIGH);
+#endif
+
     WIFI_connect();
     MQTT_connect();
     OTA_setup();
@@ -111,13 +116,13 @@ void setup()
 
 void loop()
 {
-    if (!client.connected())
-    {
-        MQTT_connect();
-    }
     if (WiFi.status() != WL_CONNECTED)
     {
         WIFI_connect();
+    }
+    if (!client.connected())
+    {
+        MQTT_connect();
     }
 
     client.loop();
