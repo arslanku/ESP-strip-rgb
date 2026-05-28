@@ -12,6 +12,22 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
     message.trim();
     Serial.println(message);
 
+#if CONTROLLER_TYPE_ESP8266_BED_LEFT
+    if (String(topic) == SSR_RELAY_TOPIC)
+    {
+        if (message == "0")
+        {
+            digitalWrite(SSR_RELAY_PIN, HIGH);
+            Serial.println("[SSR] Реле выключено");
+        }
+        else if (message == "1")
+        {
+            digitalWrite(SSR_RELAY_PIN, LOW);
+            Serial.println("[SSR] Реле включено");
+        }
+    }
+#endif
+
     if (String(topic) == STRIP_POWER_TOPIC)
     {
         if (message == "0")
@@ -114,22 +130,6 @@ void MQTT_callback(char *topic, byte *payload, unsigned int length)
             Serial.println("[STRIP] Ошибка: неверный формат цвета. Ожидается R,G,B");
         }
     }
-
-#elif CONTROLLER_TYPE_ESP8266_BED_LEFT
-    else if (String(topic) == SSR_RELAY_TOPIC)
-    {
-        if (message == "0")
-        {
-            digitalWrite(SSR_RELAY_PIN, HIGH);
-            Serial.println("[SSR] Реле выключено");
-        }
-        else if (message == "1")
-        {
-            digitalWrite(SSR_RELAY_PIN, LOW);
-            Serial.println("[SSR] Реле включено");
-        }
-    }
-#endif
 
     else if (String(topic) == RESTART_TOPIC)
     {

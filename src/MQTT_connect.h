@@ -21,6 +21,10 @@ void MQTT_connect()
             client.subscribe(STRIP_SPEED);
             client.subscribe(STRIP_COLOR_RGB);
             client.subscribe(RESTART_TOPIC);
+            
+#if CONTROLLER_TYPE_ESP8266_BED_LEFT
+            client.subscribe(SSR_RELAY_TOPIC);
+#endif
         }
         else
         {

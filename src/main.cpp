@@ -6,7 +6,7 @@
 #define CONTROLLER_TYPE_ESP8266_BED_LEFT 1
 #define CONTROLLER_TYPE_ESP8266_BED_RIGHT 0
 
-#define PROGRAMM_VERSION "-v1.0.5-"
+#define PROGRAMM_VERSION "-v1.0.6-"
 
 #include "auth_data.h"
 #include "settings.h"

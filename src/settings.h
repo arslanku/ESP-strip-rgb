@@ -98,6 +98,7 @@
 #define STRIP_MODE_TOPIC "STRIP/bed/mode"
 #define STRIP_SPEED "STRIP/bed/speed"
 #define STRIP_COLOR_RGB "STRIP/bed/colorRGB"
+
 #define TOPIC_TO_PUBLISH "STRIP/bed-1/received"
 #define RESTART_TOPIC "STRIP/bed-1/restart"
 
