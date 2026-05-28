@@ -53,12 +53,12 @@ void OTA_handle();
 
 // ===============================================
 
-#include "WIFI_connect.h"
-#include "MQTT_connect.h"
+#include "connect_WIFI.h"
+#include "connect_MQTT.h"
 
-#include "OTA_connect.h"
+#include "connect_OTA.h"
 
-#include "MQTT_callback.h"
+#include "callback_MQTT.h"
 
 #include "strip_control.h"
 
