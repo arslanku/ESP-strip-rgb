@@ -15,6 +15,7 @@
 #define STRIP_MODE_TOPIC "STRIP/table/mode"
 #define STRIP_SPEED "STRIP/table/speed"
 #define STRIP_COLOR_RGB "STRIP/table/colorRGB"
+
 #define TOPIC_TO_PUBLISH "STRIP/table-1/received"
 #define RESTART_TOPIC "STRIP/table-1/restart"
 
@@ -42,6 +43,7 @@
 #define STRIP_MODE_TOPIC "STRIP/table/mode"
 #define STRIP_SPEED "STRIP/table/speed"
 #define STRIP_COLOR_RGB "STRIP/table/colorRGB"
+
 #define TOPIC_TO_PUBLISH "STRIP/table-2/received"
 #define RESTART_TOPIC "STRIP/table-2/restart"
 
@@ -69,6 +71,7 @@
 #define STRIP_MODE_TOPIC "STRIP/window/mode"
 #define STRIP_SPEED "STRIP/window/speed"
 #define STRIP_COLOR_RGB "STRIP/window/colorRGB"
+
 #define TOPIC_TO_PUBLISH "STRIP/window/received"
 #define RESTART_TOPIC "STRIP/window/restart"
 
@@ -128,6 +131,7 @@
 #define STRIP_MODE_TOPIC "STRIP/bed/mode"
 #define STRIP_SPEED "STRIP/bed/speed"
 #define STRIP_COLOR_RGB "STRIP/bed/colorRGB"
+
 #define TOPIC_TO_PUBLISH "STRIP/bed-2/received"
 #define RESTART_TOPIC "STRIP/bed-2/restart"
 
